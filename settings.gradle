@@ -1,3 +1,7 @@
+plugins {
+  id 'com.gradle.enterprise' version "3.3.1"
+}
+
 include ':app',
   ':app-partial-users',
 
@@ -15,3 +19,12 @@ include ':app',
   ':feature:settings',
   ':feature:about',
   ':feature:shortcuts'
+
+
+
+gradleEnterprise {
+  buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+  }
+}
