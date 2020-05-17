@@ -2,27 +2,27 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 project.afterEvaluate {
-  def setupGCloudProject = tasks.register("setupGCloudProject", Exec.class) {
+  val setupGCloudProject = tasks.register("setupGCloudProject", Exec::class) {
     commandLine = "gcloud config set project github-client-25b47".split(' ')
     dependsOn(project.tasks.named("assembleDebugAndroidTest"))
   }
 
-  def setupGCloudAccount = tasks.register("setupGCloudAccount", Exec.class) {
-    def credentialsPath = createCredentialsFile()
+  val setupGCloudAccount = tasks.register("setupGCloudAccount", Exec::class) {
+    val credentialsPath = createCredentialsFile()
     commandLine = "gcloud auth activate-service-account --key-file $credentialsPath".split(' ')
 
     dependsOn(setupGCloudProject)
   }
 
-  String resultsFileToPull
+  var resultsFileToPull: String? = null
 
-  def executeTestsInTestLab = tasks.register("executeInstrumentedTestsOnFirebase", Exec.class) {
-    def appApk = "${project.buildDir}/outputs/apk/debug/app-debug.apk"
-    def testApk = "${project.buildDir}/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
-    def deviceName = "flame"
-    def androidVersion = "29"
-    def device = "model=$deviceName,version=$androidVersion,locale=en,orientation=portrait"
-    def resultDir = DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())
+  val executeTestsInTestLab = tasks.register("executeInstrumentedTestsOnFirebase", Exec::class) {
+    val appApk = "${project.buildDir}/outputs/apk/debug/app-debug.apk"
+    val testApk = "${project.buildDir}/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+    val deviceName = "flame"
+    val androidVersion = "29"
+    val device = "model=$deviceName,version=$androidVersion,locale=en,orientation=portrait"
+    val resultDir = DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now())
 
     resultsFileToPull = "gs://test-lab-twsawhz0hy5am-h35y3vymzadax/$resultDir/$deviceName-$androidVersion-en-portrait/test_result_1.xml"
 
@@ -41,7 +41,7 @@ project.afterEvaluate {
     dependsOn(setupGCloudAccount)
   }
 
-  def pullResults = tasks.register("pullFirebaseXmlResults", Exec.class) {
+  val pullResults = tasks.register("pullFirebaseXmlResults", Exec::class) {
     dependsOn(executeTestsInTestLab)
 
     doFirst {
@@ -55,11 +55,11 @@ project.afterEvaluate {
   }
 }
 
-String createCredentialsFile() {
-  def credentialsPath = "$projectDir/credentials.json"
-  def credentials = System.getenv("GCLOUD_CREDENTIALS")
+fun createCredentialsFile(): String {
+  val credentialsPath = "$projectDir/credentials.json"
+  val credentials = System.getenv("GCLOUD_CREDENTIALS")
   if (credentials != null) {
-    new File(credentialsPath).write(credentials)
+    File(credentialsPath).writeText(credentials)
   }
   return credentialsPath
 }
