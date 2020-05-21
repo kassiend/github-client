@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter
 class FirebaseTestLabPlugin : Plugin<Project> {
   override fun apply(theProject: Project) {
     theProject.afterEvaluate { project ->
+
+      println("Inside Gradle plugin")
+
       val setupGCloudProject = project.tasks.register("setupGCloudProject", Exec::class.java) {
         it.commandLine = "gcloud config set project github-client-25b47".split(' ')
         it.dependsOn(project.tasks.named("assembleDebugAndroidTest"))
