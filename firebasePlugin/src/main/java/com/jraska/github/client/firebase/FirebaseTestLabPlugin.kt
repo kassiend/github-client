@@ -13,6 +13,8 @@ class FirebaseTestLabPlugin : Plugin<Project> {
 
       println("Inside Gradle plugin")
 
+      println("One more line to see what will rebuild")
+
       val setupGCloudProject = project.tasks.register("setupGCloudProject", Exec::class.java) {
         it.commandLine = "gcloud config set project github-client-25b47".split(' ')
         it.dependsOn(project.tasks.named("assembleDebugAndroidTest"))
