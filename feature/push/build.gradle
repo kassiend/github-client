@@ -1,5 +1,3 @@
-import com.jraska.github.client.Dependencies
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -21,7 +19,7 @@ dependencies {
   implementation project(':core-android')
   implementation project(':lib:identity')
 
-  api Dependencies.FIREBASE_MESSAGING
+  api 'com.google.firebase:firebase-messaging:20.1.7'
   api 'com.google.firebase:firebase-database:19.2.1'
 
   implementation 'com.google.dagger:dagger:2.27'
