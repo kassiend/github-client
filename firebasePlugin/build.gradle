@@ -37,5 +37,10 @@ gradlePlugin {
       id = 'com.jraska.github.client.firebase'
       implementationClass = 'com.jraska.github.client.firebase.FirebaseTestLabPlugin'
     }
+
+    dependencies {
+      id = 'com.jraska.github.client.dependencies'
+      implementationClass = 'com.jraska.github.client.Dependencies'
+    }
   }
 }
