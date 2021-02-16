@@ -19,10 +19,10 @@ jobs:
           key: cache-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew check --max-workers=2 --stacktrace
+          command: ./gradlew check --max-workers=1 --stacktrace
       - run:
           name: Run Tests Firebase
-          command: ./gradlew runInstrumentedTestsOnFirebase --max-workers=2 --stacktrace
+          command: ./gradlew runInstrumentedTestsOnFirebase --max-workers=1 --stacktrace
   moduleStatisticsReport:
     environment:
       JVM_OPTS: -Xmx4096m
