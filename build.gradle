@@ -52,6 +52,11 @@ subprojects {
       }
     }
   }
+  tasks.configureEach {
+    if(name.contains("testReleaseUnitTest")) {
+      enabled = false
+    }
+  }
 }
 
 ext {
