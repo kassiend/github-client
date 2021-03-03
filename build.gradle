@@ -47,7 +47,7 @@ subprojects {
 subprojects {
   if (!gradle.startParameter.taskNames.any { it.contains("lint") }) {
     tasks.configureEach {
-      if (name.startsWith("lint")) {
+      if (name.startsWith("lint") || name.contains("Lint")) {
         enabled = false
       }
     }
